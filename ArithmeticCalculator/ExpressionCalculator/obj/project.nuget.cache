@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "rpzGMjSw3GxhalOwUE6c6Q5puOMh2jcoGAleRFYY/sDo/e7WNBFWTwHVfVFgIOcU3kVVWCxLNqBph+e8U+W6eQ==",
+  "success": true,
+  "projectFilePath": "E:\\Study_2025_2026\\Advanced_Programming\\ProjectTesting\\ArithmeticCalculator\\ExpressionCalculator\\ExpressionCalculator.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kairu\\.nuget\\packages\\fsharp.core\\6.0.5\\fsharp.core.6.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,8 @@
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\bin\Release\net6.0\ExpressionCalculator.deps.json
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\bin\Release\net6.0\ExpressionCalculator.dll
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\bin\Release\net6.0\ExpressionCalculator.pdb
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\obj\Release\net6.0\ExpressionCalculator.fsproj.AssemblyReference.cache
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\obj\Release\net6.0\ExpressionCalculator.AssemblyInfoInputs.cache
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\obj\Release\net6.0\ExpressionCalculator.AssemblyInfo.fs
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\obj\Release\net6.0\ExpressionCalculator.dll
+E:\Study_2025_2026\Advanced_Programming\ProjectTesting\ArithmeticCalculator\ExpressionCalculator\obj\Release\net6.0\ExpressionCalculator.pdb
