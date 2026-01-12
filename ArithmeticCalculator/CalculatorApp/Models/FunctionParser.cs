@@ -32,11 +32,11 @@ namespace CalculatorAPP.Models
         {
             try
             {
-                // 替换变量 x
+                // Replace variable x with the value
                 string xString = x.ToString("0.####################");
                 string finalExpr = expression.Replace("x", xString);
                 
-                // 使用自定义表达式求值器
+                // Using the custom expression evaluator
                 return EvaluateSimpleExpression(finalExpr);
             }
             catch (Exception ex)
@@ -50,10 +50,15 @@ namespace CalculatorAPP.Models
             try
             {
                 string result = Calculator.Calculate(expression);
-                // 自定义报错捕捉处理
+                // Custom Error Handling
                 if (result.Contains("Error"))
                 {
                     if (result.Contains("zero"))
+                    {
+                        return double.NaN;
+                    }
+
+                    if (result.Contains("Log"))
                     {
                         return double.NaN;
                     }

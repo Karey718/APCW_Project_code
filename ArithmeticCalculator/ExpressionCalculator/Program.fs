@@ -15,6 +15,7 @@ module public Calculator =
     let divError = System.Exception("Division error( div zero )")
     let typeError = System.Exception("Type Error")
     let nameError = System.Exception("Name Error")
+    let logError = System.Exception("Log Argument Error")
 
     
 
@@ -183,11 +184,11 @@ module public Calculator =
         let expv v = ofFloatSmart ( Math.Exp(asFloat v) )
         let lnv v =
             let x = asFloat v
-            if x <= 0.0 then raise typeError
+            if x <= 0.0 then raise logError
             else ofFloatSmart ( Math.Log x )
         let log10v v =
             let x = asFloat v
-            if x <= 0.0 then raise typeError
+            if x <= 0.0 then raise logError
             else ofFloatSmart ( Math.Log10 x )
     
 

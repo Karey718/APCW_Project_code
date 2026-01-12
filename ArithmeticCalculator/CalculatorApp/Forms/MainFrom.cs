@@ -22,14 +22,14 @@ namespace CalculatorAPP
         private Label historyLabel;
         private Button btnClearHistory;
 
-        // 符号表和历史记录
+        // Symbol Table and History
         private FSharpMap<string, Calculator.VarSym> currentSymbolTable;
         private List<HistoryRecord> calculationHistory;
 
 
         public MainForm()
         {
-            // 初始化符号表和历史记录
+            // Initialise the symbol table and history
             currentSymbolTable = Calculator.GetEmptyEnv();
             calculationHistory = new List<HistoryRecord>();
             SetupUI();
@@ -37,14 +37,14 @@ namespace CalculatorAPP
 
         private void SetupUI()
         {
-            // 设置窗体属性
+            // Set form properties
             this.Text = "Arithmetic Expression Calculator";
             this.Size = new Size(950, 460);
             this.MinimumSize = new Size(800, 450);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.White;
 
-            // 左侧面板 - 符号表 
+            // Left-hand panel - Symbol table 
             var leftPanel = new Panel
             {
                 Location = new Point(0, 0),
@@ -73,7 +73,7 @@ namespace CalculatorAPP
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left
             };
 
-            // 清理按钮
+            // Clear button
             btnClearSymbolTable = new Button
             {
                 Text = "Clear Symbol Table",
@@ -93,7 +93,7 @@ namespace CalculatorAPP
 
 
 
-            // 中间面板 - 主计算
+            // Centre Panel - Main Computing
             var middlePanel = new Panel
             {
                 Location = new Point(200, 0),
@@ -104,7 +104,7 @@ namespace CalculatorAPP
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            // 输入文本框
+            // Input text box
             inputTextBox = new TextBox
             {
                 Dock = DockStyle.Top,
@@ -115,7 +115,7 @@ namespace CalculatorAPP
                 ScrollBars = ScrollBars.None
             };
 
-            // 输出文本框
+            // Output text box
             outputTextBox = new TextBox
             {
                 Dock = DockStyle.Top,
@@ -127,7 +127,7 @@ namespace CalculatorAPP
                 Margin = new Padding(10)
             };
 
-            // 按钮面板
+            // Button panel
             var buttonPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -136,17 +136,17 @@ namespace CalculatorAPP
                 Padding = new Padding(10)
             };
 
-            // 列均分
+            // Column average
             for (int i = 0; i < 4; i++)
                 buttonPanel.ColumnStyles.Add(
                     new ColumnStyle(SizeType.Percent, 25f));
 
-            // 行均分
+            // Row average
             for (int i = 0; i < 7; i++)
                 buttonPanel.RowStyles.Add(
                     new RowStyle(SizeType.Percent, 25f));   
 
-            // 按钮定义
+            // Button definition
             string[] buttons =
             {
                 "sin","cos","tan","log",
@@ -171,7 +171,7 @@ namespace CalculatorAPP
                 buttonPanel.Controls.Add(btn, i % 4, i / 4);
             }
 
-            // 独立计算按钮（不使用 =）
+            // Independent calculation button (not using =)
             calculateButton = new Button
             {
                 Text = "Calculate",
@@ -183,7 +183,7 @@ namespace CalculatorAPP
             };
             calculateButton.Click += CalculateButton_Click;
 
-            // 切换按钮
+            // Switch button
             btnSwitch = new Button
             {
                 Text = "Show Coordinate System Window",
@@ -194,7 +194,7 @@ namespace CalculatorAPP
             btnSwitch.Click += BtnSwitch;
 
 
-            // 添加到中间面板
+            // Add to the middle panel
             middlePanel.Controls.Add(buttonPanel);
             middlePanel.Controls.Add(calculateButton);
             middlePanel.Controls.Add(btnSwitch);
@@ -203,7 +203,7 @@ namespace CalculatorAPP
 
 
 
-            // 右侧面板 - 历史记录
+            // Right-hand panel - History
             var rightPanel = new Panel
             {
                 Location = new Point(this.ClientSize.Width - 200, 0),
@@ -231,7 +231,7 @@ namespace CalculatorAPP
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left
             };
 
-            // 清理按钮
+            // Clear button
             btnClearHistory = new Button
             {
                 Text = "Clear History",
@@ -249,12 +249,12 @@ namespace CalculatorAPP
             rightPanel.Controls.Add(historyListView);
             rightPanel.Controls.Add(btnClearHistory);
 
-            // 添加所有面板到窗体
+            // Add all panels to the form
             this.Controls.Add(leftPanel);
             this.Controls.Add(rightPanel);
             this.Controls.Add(middlePanel);
 
-            // 更新符号表显示
+            // Update symbol table display
             UpdateSymbolTableDisplay();
         }
 
@@ -280,7 +280,7 @@ namespace CalculatorAPP
                     break;
 
                 case "=":
-                    // 不触发计算，仅作占位（或你也可以直接忽略）
+                    // Does not trigger computation; serves merely as a placeholder.
                     inputTextBox.Text += "=";
                     break;
 
@@ -303,19 +303,19 @@ namespace CalculatorAPP
                     return;
                 }
 
-                // 调用F#计算模块
+                // Invoke the F# computation module
                 var (result, newSymbolTable) = Calculator.Calculate_st(expression, currentSymbolTable);
                 outputTextBox.Text = result;
 
-                // 更新符号表
+                // Update the symbol table
                 currentSymbolTable = newSymbolTable;
                 UpdateSymbolTableDisplay();
 
-                // 根据结果显示不同的颜色
+                // Display different colours based on the results
                 if (result.StartsWith("Error"))
                 {
                     outputTextBox.BackColor = Color.LightPink;
-                    // 添加到历史记录
+                    // Add to history
                     AddToHistory(expression, result, true);
                 }
                 else
@@ -337,7 +337,7 @@ namespace CalculatorAPP
             
             try
             {
-                // 调用F#方法来获取符号表内容
+                // Call the F# method to retrieve the contents of the symbol table
                 var symbolTableData = Calculator.GetSymbolTableData(currentSymbolTable);
                 
                 foreach (var item in symbolTableData)
@@ -351,7 +351,6 @@ namespace CalculatorAPP
             }
             catch (Exception ex)
             {
-                // 如果获取符号表数据失败，显示错误信息
                 var errorItem = new ListViewItem(new[] { "Error", ex.Message });
                 symbolTableListView.Items.Add(errorItem);
             }
@@ -359,7 +358,7 @@ namespace CalculatorAPP
 
         private void AddToHistory(string expression, string result, bool error)
         {
-            // 限制历史记录数量
+            // Limit the number of historical records
             if (calculationHistory.Count >= 50)
             {
                 calculationHistory.RemoveAt(0);
@@ -383,12 +382,12 @@ namespace CalculatorAPP
 
             foreach (var record in calculationHistory)
             {
-                // 简化表达式显示
+                // Simplified expression display
                 string shortExpression = record.Expression.Length > 20
                     ? record.Expression.Substring(0, 20) + "..."
                     : record.Expression;
 
-                // 简化结果显示
+                // Simplified result display
                 string shortResult = record.Result.Length > 30
                     ? record.Result.Substring(0, 30) + "..."
                     : record.Result;
@@ -439,7 +438,7 @@ namespace CalculatorAPP
         }
     }
     
-    // 历史记录类
+    // History Records
     public class HistoryRecord
     {
         public string Expression { get; set; }

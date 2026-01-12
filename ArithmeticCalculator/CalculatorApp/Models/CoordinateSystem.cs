@@ -23,7 +23,7 @@ namespace CalculatorAPP.Models
             Origin = new PointF(viewportSize.Width / 2, viewportSize.Height / 2);
         }
 
-        // 世界坐标到屏幕坐标转换
+        // World Coordinate to Screen Coordinate Conversion
         public PointF WorldToScreen(PointF worldPoint)
         {
             return new PointF(
@@ -32,7 +32,7 @@ namespace CalculatorAPP.Models
             );
         }
 
-        // 屏幕坐标到世界坐标转换
+        // Screen coordinate to world coordinate conversion
         public PointF ScreenToWorld(PointF screenPoint)
         {
             return new PointF(
@@ -41,14 +41,12 @@ namespace CalculatorAPP.Models
             );
         }
 
-        // 开始拖动
         public void StartDrag(PointF screenPoint)
         {
             lastMousePosition = screenPoint;
             isDragging = true;
         }
 
-        // 处理拖动
         public void HandleDrag(PointF currentScreenPoint)
         {
             if (!isDragging) return;
@@ -65,7 +63,6 @@ namespace CalculatorAPP.Models
             isDragging = false;
         }
 
-        // 缩放
         public void Zoom(float factor, PointF centerScreenPoint)
         {
             PointF worldCenterBefore = ScreenToWorld(centerScreenPoint);
@@ -84,7 +81,7 @@ namespace CalculatorAPP.Models
             );
         }
 
-        // 获取当前可见的世界坐标范围
+        // Retrieve the currently visible world coordinate range
         public (float minX, float maxX, float minY, float maxY) GetVisibleWorldRange()
         {
             PointF topLeft = ScreenToWorld(new PointF(0, 0));
@@ -93,7 +90,7 @@ namespace CalculatorAPP.Models
             return (topLeft.X, bottomRight.X, bottomRight.Y, topLeft.Y);
         }
 
-        // 检查世界坐标点是否在可见范围内
+        // Check whether the world coordinate point is within the visible range
         public bool IsWorldPointVisible(PointF worldPoint)
         {
             var range = GetVisibleWorldRange();

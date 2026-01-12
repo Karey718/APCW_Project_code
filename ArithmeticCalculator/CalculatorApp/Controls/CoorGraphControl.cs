@@ -22,7 +22,7 @@ namespace CalculatorAPP.Controls
             DoubleBuffered = true;
             coordinateSystem = new CoordinateSystem(Size);
 
-            // 设置样式
+            // Set Style
             SetStyle(ControlStyles.AllPaintingInWmPaint |
                     ControlStyles.UserPaint |
                     ControlStyles.DoubleBuffer |
@@ -34,7 +34,7 @@ namespace CalculatorAPP.Controls
             parentForm = form;
         }
 
-        // 添加调试信息
+        // Add debugging information
         private void AddDebugInfo(string message)
         {
             parentForm.AddDebugInfo(message);
@@ -59,7 +59,7 @@ namespace CalculatorAPP.Controls
         }
 
 
-        // ========================= 坐标系网格绘制 =========================
+        // ========================= Coordinate System Grid Axes Ticks Drawing =========================
 
 
         private void DrawCoordinateSystem(Graphics g)
@@ -68,16 +68,16 @@ namespace CalculatorAPP.Controls
             var pen = new Pen(cs.AxisColor, 1.5f);
             var gridPen = new Pen(cs.GridColor, 0.5f) { DashStyle = DashStyle.Dash };
 
-            // 绘制网格
+            // Draw Grid
             if (cs.ShowGrid)
             {
                 DrawGrid(g, gridPen);
             }
 
-            // 绘制坐标轴
+            // Draw Axes
             DrawAxes(g, pen);
 
-            // 绘制刻度
+            // Draw Ticks
             DrawTicks(g, pen);
         }
 
@@ -85,10 +85,10 @@ namespace CalculatorAPP.Controls
         {
             var cs = coordinateSystem;
             
-            // 使用与刻度相同的间隔
+            // Using intervals identical to the scale
             float gridInterval = CalculateTickInterval(cs.Scale);
             
-            // 计算世界坐标范围
+            // Calculate the world coordinate range
             PointF worldTopLeft = cs.ScreenToWorld(new PointF(0, 0));
             PointF worldBottomRight = cs.ScreenToWorld(new PointF(Width, Height));
             
@@ -97,7 +97,7 @@ namespace CalculatorAPP.Controls
             float minWorldY = worldBottomRight.Y;
             float maxWorldY = worldTopLeft.Y;
             
-            // 绘制垂直网格线
+            // Draw vertical grid lines
             float firstGridX = (float)Math.Ceiling(minWorldX / gridInterval) * gridInterval;
             float lastGridX = (float)Math.Floor(maxWorldX / gridInterval) * gridInterval;
             
@@ -107,7 +107,7 @@ namespace CalculatorAPP.Controls
                 g.DrawLine(pen, screenPoint.X, 0, screenPoint.X, Height);
             }
             
-            // 绘制水平网格线
+            // Draw horizontal grid lines
             float firstGridY = (float)Math.Ceiling(minWorldY / gridInterval) * gridInterval;
             float lastGridY = (float)Math.Floor(maxWorldY / gridInterval) * gridInterval;
             
@@ -122,9 +122,9 @@ namespace CalculatorAPP.Controls
         {
             var cs = coordinateSystem;
             
-            // X轴
+            // X Axes
             g.DrawLine(pen, 0, cs.Origin.Y, Width, cs.Origin.Y);
-            // Y轴
+            // Y Axes
             g.DrawLine(pen, cs.Origin.X, 0, cs.Origin.X, Height);
         }
 
@@ -135,22 +135,22 @@ namespace CalculatorAPP.Controls
             var font = new Font("Arial", 14);
             var brush = Brushes.Black;
 
-            // 根据当前缩放级别计算合适的刻度间隔
+            // Calculate the appropriate tick interval based on the current zoom level.
             float tickInterval = CalculateTickInterval(cs.Scale);
 
-            // 计算当前视图的世界坐标范围
+            // Calculate the world coordinate range of the current view
             PointF worldTopLeft = cs.ScreenToWorld(new PointF(0, 0));
             PointF worldBottomRight = cs.ScreenToWorld(new PointF(Width, Height));
 
             float minWorldX = worldTopLeft.X;
             float maxWorldX = worldBottomRight.X;
-            float minWorldY = worldBottomRight.Y; // Y坐标是反的
+            float minWorldY = worldBottomRight.Y; // The Y-coordinate is inverted.
             float maxWorldY = worldTopLeft.Y;
 
-            // 绘制X轴刻度
+            // Plot the X-axis scale
             DrawXAxisTicks(g, pen, font, brush, cs, tickInterval, minWorldX, maxWorldX, tickSize);
 
-            // 绘制Y轴刻度
+            // Plot the Y-axis scale
             DrawYAxisTicks(g, pen, font, brush, cs, tickInterval, minWorldY, maxWorldY, tickSize);
         }
 
@@ -158,8 +158,8 @@ namespace CalculatorAPP.Controls
         {
             float pixelsPerUnit = scale;
             
-            // 理想的像素间距范围
-            float minPixelSpacing = 40.0f;  // 最小40像素
+            // Ideal pixel pitch range
+            float minPixelSpacing = 60.0f;  
             
             float idealInterval = minPixelSpacing / pixelsPerUnit;
             
@@ -170,11 +170,11 @@ namespace CalculatorAPP.Controls
         {
             if (idealInterval <= 0) return 1.0f;
             
-            // 计算数量级
+            // Calculate the order of magnitude
             float magnitude = (float)Math.Pow(10, Math.Floor(Math.Log10(idealInterval)));
             float normalized = idealInterval / magnitude;
             
-            // 在 1, 2, 5 序列中选择最接近的值
+            // Select the closest value from the sequence 1, 2, 5
             float[] factors = { 1.0f, 2.0f, 5.0f };
             float bestFactor = 1.0f;
             float minDiff = float.MaxValue;
@@ -191,8 +191,8 @@ namespace CalculatorAPP.Controls
             
             float interval = bestFactor * magnitude;
             
-            if (interval < 1e-10f) interval = 1e-10f; // 防止过小
-            if (interval > 1e10f) interval = 1e10f;   // 防止过大
+            if (interval < 1e-10f) interval = 1e-10f; 
+            if (interval > 1e10f) interval = 1e10f;  
             
             return interval;
         }
@@ -201,18 +201,18 @@ namespace CalculatorAPP.Controls
                            CoordinateSystem cs, float tickInterval,
                            float minWorldX, float maxWorldX, float tickSize)
         {
-            // 计算第一个和最后一个刻度位置（对齐到刻度间隔）
+            // Calculate the positions of the first and last graduations (aligned to the graduation interval)
             float firstTickX = (float)Math.Ceiling(minWorldX / tickInterval) * tickInterval;
             float lastTickX = (float)Math.Floor(maxWorldX / tickInterval) * tickInterval;
 
-            // 限制刻度数量
+            // Limit the number of graduations
             int maxTicks = 100;
             float actualTickInterval = tickInterval;
             int tickCount = (int)((lastTickX - firstTickX) / tickInterval) + 1;
 
             if (tickCount > maxTicks)
             {
-                // 如果刻度太多，自动调整间隔
+                // If there are too many graduations, the intervals will be adjusted automatically.
                 actualTickInterval = AdjustTickIntervalForDensity(tickInterval, tickCount, maxTicks);
                 firstTickX = (float)Math.Ceiling(minWorldX / actualTickInterval) * actualTickInterval;
                 lastTickX = (float)Math.Floor(maxWorldX / actualTickInterval) * actualTickInterval;
@@ -222,16 +222,16 @@ namespace CalculatorAPP.Controls
             {
                 PointF screenPoint = cs.WorldToScreen(new PointF(worldX, 0));
 
-                // 绘制刻度标签
+                // Drawing scale labels
                 var label = FormatTickLabel(worldX, actualTickInterval);
                 float newSize = font.Size * label.rescale;   
                 Font tmpFont = new Font(font.FontFamily, newSize, font.Style);
                 var size = g.MeasureString(label.format, tmpFont);
 
-                // 绘制刻度线
+                // Drawing scale lines
                 g.DrawLine(pen, screenPoint.X, cs.Origin.Y - tickSize, screenPoint.X, cs.Origin.Y + tickSize);
 
-                // 确保标签不会超出边界
+                // Ensure labels do not extend beyond the boundaries.
                 float labelX = screenPoint.X - size.Width / 2;
                 float labelY = cs.Origin.Y + tickSize + 2;
 
@@ -247,11 +247,11 @@ namespace CalculatorAPP.Controls
                            CoordinateSystem cs, float tickInterval,
                            float minWorldY, float maxWorldY, float tickSize)
         {
-            // 计算第一个和最后一个刻度位置
+            // Calculate the positions of the first and last graduations
             float firstTickY = (float)Math.Ceiling(minWorldY / tickInterval) * tickInterval;
             float lastTickY = (float)Math.Floor(maxWorldY / tickInterval) * tickInterval;
 
-            // 限制刻度数量
+            // Limit the number of graduations
             int maxTicks = 50;
             float actualTickInterval = tickInterval;
             int tickCount = (int)((lastTickY - firstTickY) / tickInterval) + 1;
@@ -265,22 +265,22 @@ namespace CalculatorAPP.Controls
 
             for (float worldY = firstTickY; worldY <= lastTickY; worldY += actualTickInterval)
             {
-                // // 跳过太接近0的点，避免与原点标签重叠
-                // if (Math.Abs(worldY) < actualTickInterval * 0.1f) continue;
+                // Skip points too close to zero to avoid overlapping with the origin label.
+                if (Math.Abs(worldY) < actualTickInterval * 0.01f) continue;
 
                 PointF screenPoint = cs.WorldToScreen(new PointF(0, worldY));
 
-                // 绘制刻度标签
+                // Drawing scale labels
                 var label = FormatTickLabel(worldY, actualTickInterval);
                 float newSize = font.Size * label.rescale;   
                 Font tmpFont = new Font(font.FontFamily, newSize, font.Style);
                 var size = g.MeasureString(label.format, tmpFont);
 
 
-                // 绘制刻度线
+                // Drawing scale lines
                 g.DrawLine(pen, cs.Origin.X - tickSize, screenPoint.Y, cs.Origin.X + tickSize, screenPoint.Y);
 
-                // 确保标签不会超出边界
+                // Ensure labels do not extend beyond the boundaries.
                 float labelX = cs.Origin.X - tickSize - 2 - size.Width;
                 float labelY = screenPoint.Y - size.Height / 2;
 
@@ -294,7 +294,7 @@ namespace CalculatorAPP.Controls
 
         private float AdjustTickIntervalForDensity(float originalInterval, int currentCount, int maxCount)
         {
-            // 根据当前刻度数量调整间隔
+            // Adjust the interval according to the current number of graduations.
             float factor = (float)currentCount / maxCount;
 
             if (factor > 4) return originalInterval * 5;
@@ -304,7 +304,7 @@ namespace CalculatorAPP.Controls
 
         private (string format, float rescale) FormatTickLabel(float value, float interval)
         {
-            // 处理特殊值
+            // Handling special values
             if (float.IsNaN(value) || float.IsInfinity(value)) return ("∞", 1.0f);
 
             float absValue = Math.Abs(value);
@@ -315,10 +315,10 @@ namespace CalculatorAPP.Controls
 
         private (string format, float rescale) FormatSmartDecimal(float value, float absInterval)
         {
-            // 计算合适的小数位数
+            // Calculate the appropriate number of decimal places
             int decimalPlaces = (int)Math.Max(0, -Math.Floor(Math.Log10(absInterval)) + 1);
 
-            // 限制小数位数在合理范围内(可以解除限制)
+            // Restrict the number of decimal places to a reasonable range (this restriction may be lifted)
             decimalPlaces = Math.Min(Math.Max(decimalPlaces, 0), 8);
 
             string format = decimalPlaces == 0 ? "0" : "0." + new string('#', decimalPlaces);
@@ -330,7 +330,7 @@ namespace CalculatorAPP.Controls
 
 
 
-        // ========================= 函数绘制 =========================
+        // ========================= Function plotting =========================
         
         class AsymptoteAnalysis
         {
@@ -338,7 +338,7 @@ namespace CalculatorAPP.Controls
             public int ExtremeJumpCount;
         }
 
-        // 检测函数是否存在渐近线，以优化性能
+        // Detect whether a function possesses an asymptote to optimise performance
         private AsymptoteAnalysis AnalyzeFunctionBehavior(
             FunctionPlot function,
             CoordinateSystem cs,
@@ -418,12 +418,12 @@ namespace CalculatorAPP.Controls
             float worldStartX = Math.Min(worldTopLeft.X, worldBottomRight.X);
             float worldEndX   = Math.Max(worldTopLeft.X, worldBottomRight.X);
 
-            // ===== 渐近线函数检测 =====
+            // ===== Asymptotic Function Detection =====
             var analysis = GetAsymptoteAnalysis(function, worldStartX, worldEndX);
             bool isAsymptotic = analysis.IsAsymptotic;
 
             int baseSamples = Math.Max(Width, 1000);
-            int samples = isAsymptotic ? baseSamples * 20 : baseSamples;
+            int samples = isAsymptotic ? baseSamples * 10 : baseSamples;
 
             var segments = new List<List<PointF>>();
             var currentSegment = new List<PointF>();
@@ -466,6 +466,7 @@ namespace CalculatorAPP.Controls
             }
         }
 
+
         private PointF? TryGetPoint(
             FunctionPlot function,
             CoordinateSystem cs,
@@ -473,13 +474,14 @@ namespace CalculatorAPP.Controls
         {
             try
             {
+                // Invoke the F# computation module
                 double y = function.Function(worldX);
                 if (double.IsNaN(y) || double.IsInfinity(y))
                     return null;
 
                 PointF p = cs.WorldToScreen(new PointF(worldX, (float)y));
 
-                // 越界直接判无效
+                // Crossing the boundary shall be deemed invalid.
                 if (p.Y < -Height || p.Y > Height)
                     return null;
 
@@ -511,9 +513,9 @@ namespace CalculatorAPP.Controls
 
         
         
-        // ========================= 控制 =========================
+        // ========================= Control =========================
 
-        // 鼠标事件处理
+        // Mouse Event Handling
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -554,7 +556,7 @@ namespace CalculatorAPP.Controls
             Invalidate();
         }
 
-        // 公共方法
+        // Public methods
         public void AddFunction(string expression, Color color)
         {
             var parser = new FunctionParser(this.AddDebugInfo);

@@ -30,7 +30,7 @@ namespace CalculatorAPP.Forms
             Size = new Size(1200, 800);
             StartPosition = FormStartPosition.CenterScreen;
 
-            // 创建分割容器
+            // Create a partitioned container
             var splitContainer = new SplitContainer
             {
                 Dock = DockStyle.Fill,
@@ -38,7 +38,7 @@ namespace CalculatorAPP.Forms
                 SplitterWidth = 8
             };
 
-            // 左侧控制面板
+            // Left-hand control panel
             var panel = new Panel
             {
                 Dock = DockStyle.Fill,
@@ -46,7 +46,7 @@ namespace CalculatorAPP.Forms
                 AutoScroll = true
             };
 
-            // 右侧图形区域
+            // Right-hand graphic area
             coorGraphControl = new CoorGraphControl
             {
                 Dock = DockStyle.Fill
@@ -54,7 +54,7 @@ namespace CalculatorAPP.Forms
 
             coorGraphControl.SetMainForm(this);
 
-            // 控件设置
+            // Control settings
             SetupControls(panel);
 
             splitContainer.Panel1.Controls.Add(panel);
@@ -97,7 +97,7 @@ namespace CalculatorAPP.Forms
             int y = 20;
             int controlWidth = 260;
 
-            // 表达式输入
+            // Expression input
             var lblExpression = new Label
             {
                 Text = "Mathematical Expression:",
@@ -114,7 +114,7 @@ namespace CalculatorAPP.Forms
             };
             panel.Controls.Add(txtExpression);
 
-            // 颜色选择
+            // Colour selection
             y += 35;
             var lblColor = new Label
             {
@@ -154,7 +154,7 @@ namespace CalculatorAPP.Forms
             btnClear.Click += BtnClear_Click;
             panel.Controls.Add(btnClear);
 
-            // 重置视图按钮
+            // Reset View Button
             y += 40;
             btnReset = new Button
             {
@@ -165,7 +165,7 @@ namespace CalculatorAPP.Forms
             btnReset.Click += BtnReset_Click;
             panel.Controls.Add(btnReset);
 
-            // 测试按钮
+            // Test button
             y += 40;
             var btnTest = new Button
             {
@@ -176,7 +176,7 @@ namespace CalculatorAPP.Forms
             btnTest.Click += BtnTest_Click;
             panel.Controls.Add(btnTest);
 
-            // 函数列表
+            // List of Functions
             y += 50;
             var lblList = new Label
             {
@@ -195,7 +195,7 @@ namespace CalculatorAPP.Forms
             panel.Controls.Add(lstFunctions);
 
 
-            // 使用说明
+            // Instructions for Use
             y += 220;
             var lblHelp = new Label
             {

@@ -8,8 +8,8 @@ namespace CalculatorAPP
 {
     public partial class DebugForm : Form
     {
-        private TextBox txtDebug; // 新增调试文本框
-        private Button btnDebugToggle; // 调试窗口显示/隐藏按钮
+        private TextBox txtDebug; 
+        private Button btnDebugToggle; 
 
         public DebugForm()
         {
@@ -19,13 +19,11 @@ namespace CalculatorAPP
 
         private void SetupUI()
         {
-            // 设置窗体属性
             this.Text = "Debug";
             this.Size = new Size(450, 250);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.White;
 
-            // 调试标题
             var lblDebug = new Label
             {
                 Text = "Debugging information:",
@@ -35,7 +33,6 @@ namespace CalculatorAPP
                 ForeColor = Color.DarkBlue
             };
 
-            // 调试文本框
             txtDebug = new TextBox
             {
                 Location = new Point(5, 30),
@@ -48,7 +45,6 @@ namespace CalculatorAPP
                 WordWrap = false
             };
 
-            // 调试控制按钮
             btnDebugToggle = new Button
             {
                 Text = "Clear test information",
@@ -58,7 +54,6 @@ namespace CalculatorAPP
             };
             btnDebugToggle.Click += BtnDebugToggle_Click;
 
-            // 添加控件到窗体
             this.Controls.AddRange(new Control[] 
             {
                 lblDebug,
@@ -72,29 +67,28 @@ namespace CalculatorAPP
 
         private void BtnDebugToggle_Click(object sender, EventArgs e)
         {
-            // 清空调试信息
             txtDebug.Clear();
             AddDebugInfo("调试信息已清空");
         }
 
-        // 公开方法：添加调试信息
+        // Public method: Add debug information
         public void AddDebugInfo(string message)
         {
             if (txtDebug.InvokeRequired)
             {
-                // 如果在非UI线程上调用，使用Invoke
+                // If invoked on a non-UI thread, use Invoke.
                 txtDebug.Invoke(new Action<string>(AddDebugInfo), message);
             }
             else
             {
-                // 添加时间戳
+                // Add timestamp
                 string timestamp = DateTime.Now.ToString("HH:mm:ss.fff");
                 string fullMessage = $"[{timestamp}] {message}";
                 
-                // 添加到文本框
+                // Add to text box
                 txtDebug.Text = fullMessage + Environment.NewLine + txtDebug.Text;
                 
-                // 限制行数，避免内存占用过大
+                // Limit the number of lines to prevent excessive memory usage.
                 var lines = txtDebug.Lines;
                 if (lines.Length > 100)
                 {
